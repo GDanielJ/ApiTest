@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ApiTest.Data;
 using ApiTest.Models;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,9 +15,11 @@ namespace ApiTest.Controllers.Api
     public class PeopleController : ControllerBase
     {
         private ApplicationDbContext _context;
-        public PeopleController(ApplicationDbContext context)
+        private IMapper _mapper;
+        public PeopleController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET /api/people

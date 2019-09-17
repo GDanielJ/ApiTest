@@ -32,4 +32,3 @@ C:\Users\johan\source\repos\GDanielJ\ApiTest\ApiTest\ApiTest\obj\Debug\netcoreap
 C:\Users\johan\source\repos\GDanielJ\ApiTest\ApiTest\ApiTest\obj\Debug\netcoreapp2.1\ApiTest.dll
 C:\Users\johan\source\repos\GDanielJ\ApiTest\ApiTest\ApiTest\obj\Debug\netcoreapp2.1\ApiTest.pdb
 C:\Users\johan\source\repos\GDanielJ\ApiTest\ApiTest\ApiTest\obj\Debug\netcoreapp2.1\ApiTest.csproj.CopyComplete
-C:\Users\johan\source\repos\GDanielJ\ApiTest\ApiTest\ApiTest\obj\Debug\netcoreapp2.1\UserSecretsAssemblyInfo.cs
