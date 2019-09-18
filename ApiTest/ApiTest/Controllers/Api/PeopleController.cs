@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ApiTest.Data;
 using ApiTest.Models;
+using ApiTest.Dtos;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,55 +25,57 @@ namespace ApiTest.Controllers.Api
 
         // GET /api/people
         [HttpGet]
-        public IEnumerable<Person> GetPeople()
+        public IEnumerable<PersonDto> GetPeople()
         {
-            return _context.People.ToList();
+            return _context.People.ToList().Select(_mapper.Map<Person, PersonDto>);
         }
 
         // GET /api/people/{id}
-        [HttpGet]
-        public Person GetPerson(int id)
+        [HttpGet("{id}")]
+        public PersonDto GetPerson(int id)
         {
             var personInDb = _context.People.SingleOrDefault(p => p.Id == id);
 
             //if (personIndb == null)
 
-            return personInDb;
+            return _mapper.Map<Person, PersonDto>(personInDb);
         }
 
         // POST /api/people
         [HttpPost]
-        public Person CreatePerson(Person person)
+        public PersonDto CreatePerson(PersonDto personDto)
         {
             //if(!ModelState.IsValid)
             //    throw new HttpResponseException()
 
+            var person = _mapper.Map<PersonDto, Person>(personDto);
+            person.DateCreated = DateTime.Now;
+
             _context.Add(person);
             _context.SaveChanges();
 
-            return person;
+            personDto.Id = person.Id;
+
+            return personDto;
         }
 
         // PUT /api/people/{id}
-        [HttpPut]
-        public Person UpdatePerson(int id, Person person)
+        [HttpPut("{id}")]
+        public PersonDto UpdatePerson(int id, PersonDto personDto)
         {
             //if(!ModelState.IsValid)
 
             var personInDb = _context.People.SingleOrDefault(p => p.Id == id);
 
-            personInDb.Firstname = person.Firstname;
-            personInDb.Lastname = person.Lastname;
-            personInDb.Email = person.Email;
-            personInDb.City = person.City;
-            personInDb.DateCreated = DateTime.Now;
+            _mapper.Map(personDto, personInDb);
 
             _context.SaveChanges();
 
-            return personInDb;
+            return personDto;
         }
 
         // DELETE /Api/People/{id}
+        [HttpDelete("{id}")]
         public void RemovePerson(int id)
         {
             var personIdDb = _context.People.SingleOrDefault(p => p.Id == id);
