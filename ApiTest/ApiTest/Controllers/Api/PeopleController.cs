@@ -8,6 +8,7 @@ using ApiTest.Dtos;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http.Extensions;
 
 namespace ApiTest.Controllers.Api
 {
@@ -25,28 +26,29 @@ namespace ApiTest.Controllers.Api
 
         // GET /api/people
         [HttpGet]
-        public IEnumerable<PersonDto> GetPeople()
+        public IActionResult GetPeople()
         {
-            return _context.People.ToList().Select(_mapper.Map<Person, PersonDto>);
+            return Ok(_context.People.ToList().Select(_mapper.Map<Person, PersonDto>));
         }
 
         // GET /api/people/{id}
         [HttpGet("{id}")]
-        public PersonDto GetPerson(int id)
+        public IActionResult GetPerson(int id)
         {
             var personInDb = _context.People.SingleOrDefault(p => p.Id == id);
 
-            //if (personIndb == null)
+            if (personInDb == null)
+                return NotFound();
 
-            return _mapper.Map<Person, PersonDto>(personInDb);
+            return Ok(_mapper.Map<Person, PersonDto>(personInDb));
         }
 
         // POST /api/people
         [HttpPost]
-        public PersonDto CreatePerson(PersonDto personDto)
+        public IActionResult CreatePerson(PersonDto personDto)
         {
-            //if(!ModelState.IsValid)
-            //    throw new HttpResponseException()
+            if (!ModelState.IsValid)
+                return BadRequest();
 
             var person = _mapper.Map<PersonDto, Person>(personDto);
             person.DateCreated = DateTime.Now;
@@ -56,32 +58,41 @@ namespace ApiTest.Controllers.Api
 
             personDto.Id = person.Id;
 
-            return personDto;
+            return Created(new Uri(Request.GetEncodedUrl() + "/" + personDto.Id), personDto);
         }
 
         // PUT /api/people/{id}
         [HttpPut("{id}")]
-        public PersonDto UpdatePerson(int id, PersonDto personDto)
+        public IActionResult UpdatePerson(int id, PersonDto personDto)
         {
-            //if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
+                return BadRequest();
 
             var personInDb = _context.People.SingleOrDefault(p => p.Id == id);
+
+            if (personInDb == null)
+                return NotFound();
 
             _mapper.Map(personDto, personInDb);
 
             _context.SaveChanges();
 
-            return personDto;
+            return Ok();
         }
 
         // DELETE /Api/People/{id}
         [HttpDelete("{id}")]
-        public void RemovePerson(int id)
+        public IActionResult RemovePerson(int id)
         {
             var personIdDb = _context.People.SingleOrDefault(p => p.Id == id);
 
+            if (personIdDb == null)
+                return NotFound();
+
             _context.Remove(personIdDb);
             _context.SaveChanges();
+
+            return Ok();
         }
     }
 }
