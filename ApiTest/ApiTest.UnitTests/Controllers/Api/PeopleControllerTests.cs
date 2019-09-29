@@ -25,7 +25,10 @@ namespace ApiTest.UnitTests.Controllers.Api
                 new Person() { Id = 2, Firstname = "Uno", Lastname = "Unosson", Email = "uno@gmail.com", City = "Amsterdam", DateCreated = DateTime.Now}
             });
 
-            var controller = new PeopleController(context.Object, new Mapper());
+            // Här fattar jag inte riktigt hur jag ska få det att funka. Som konstruktorn ser ut nu tar den en IMapper, men vet inte hur jag ska 
+            // lösa det här. Borde gå att lösa på något annat sätt, genom att flytta ut IMappern ur konstruktorn och skapa via en property istället
+            // men det blir en fullösning tänker jag.
+            var controller = new PeopleController(context.Object, /*????????*/);
         }
     }
 }
