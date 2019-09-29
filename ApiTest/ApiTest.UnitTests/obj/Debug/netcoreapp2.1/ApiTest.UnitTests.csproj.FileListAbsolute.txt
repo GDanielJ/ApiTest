@@ -1,0 +1,17 @@
+C:\Users\johan\source\repos\GDanielJ\ApiTest\ApiTest\ApiTest.UnitTests\bin\Debug\netcoreapp2.1\ApiTest.Views.dll
+C:\Users\johan\source\repos\GDanielJ\ApiTest\ApiTest\ApiTest.UnitTests\bin\Debug\netcoreapp2.1\ApiTest.Views.pdb
+C:\Users\johan\source\repos\GDanielJ\ApiTest\ApiTest\ApiTest.UnitTests\bin\Debug\netcoreapp2.1\NUnit3.TestAdapter.dll
+C:\Users\johan\source\repos\GDanielJ\ApiTest\ApiTest\ApiTest.UnitTests\bin\Debug\netcoreapp2.1\NUnit3.TestAdapter.pdb
+C:\Users\johan\source\repos\GDanielJ\ApiTest\ApiTest\ApiTest.UnitTests\bin\Debug\netcoreapp2.1\nunit.engine.netstandard.dll
+C:\Users\johan\source\repos\GDanielJ\ApiTest\ApiTest\ApiTest.UnitTests\bin\Debug\netcoreapp2.1\Mono.Cecil.dll
+C:\Users\johan\source\repos\GDanielJ\ApiTest\ApiTest\ApiTest.UnitTests\bin\Debug\netcoreapp2.1\ApiTest.UnitTests.deps.json
+C:\Users\johan\source\repos\GDanielJ\ApiTest\ApiTest\ApiTest.UnitTests\bin\Debug\netcoreapp2.1\ApiTest.UnitTests.runtimeconfig.json
+C:\Users\johan\source\repos\GDanielJ\ApiTest\ApiTest\ApiTest.UnitTests\bin\Debug\netcoreapp2.1\ApiTest.UnitTests.runtimeconfig.dev.json
+C:\Users\johan\source\repos\GDanielJ\ApiTest\ApiTest\ApiTest.UnitTests\bin\Debug\netcoreapp2.1\ApiTest.UnitTests.dll
+C:\Users\johan\source\repos\GDanielJ\ApiTest\ApiTest\ApiTest.UnitTests\bin\Debug\netcoreapp2.1\ApiTest.dll
+C:\Users\johan\source\repos\GDanielJ\ApiTest\ApiTest\ApiTest.UnitTests\bin\Debug\netcoreapp2.1\ApiTest.pdb
+C:\Users\johan\source\repos\GDanielJ\ApiTest\ApiTest\ApiTest.UnitTests\obj\Debug\netcoreapp2.1\ApiTest.UnitTests.csprojAssemblyReference.cache
+C:\Users\johan\source\repos\GDanielJ\ApiTest\ApiTest\ApiTest.UnitTests\obj\Debug\netcoreapp2.1\ApiTest.UnitTests.csproj.CoreCompileInputs.cache
+C:\Users\johan\source\repos\GDanielJ\ApiTest\ApiTest\ApiTest.UnitTests\obj\Debug\netcoreapp2.1\ApiTest.UnitTests.AssemblyInfoInputs.cache
+C:\Users\johan\source\repos\GDanielJ\ApiTest\ApiTest\ApiTest.UnitTests\obj\Debug\netcoreapp2.1\ApiTest.UnitTests.AssemblyInfo.cs
+C:\Users\johan\source\repos\GDanielJ\ApiTest\ApiTest\ApiTest.UnitTests\obj\Debug\netcoreapp2.1\ApiTest.UnitTests.csproj.CopyComplete
