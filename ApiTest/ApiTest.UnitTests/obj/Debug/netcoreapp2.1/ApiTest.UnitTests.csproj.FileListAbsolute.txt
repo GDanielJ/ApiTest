@@ -15,5 +15,6 @@ C:\Users\johan\source\repos\GDanielJ\ApiTest\ApiTest\ApiTest.UnitTests\obj\Debug
 C:\Users\johan\source\repos\GDanielJ\ApiTest\ApiTest\ApiTest.UnitTests\obj\Debug\netcoreapp2.1\ApiTest.UnitTests.AssemblyInfoInputs.cache
 C:\Users\johan\source\repos\GDanielJ\ApiTest\ApiTest\ApiTest.UnitTests\obj\Debug\netcoreapp2.1\ApiTest.UnitTests.AssemblyInfo.cs
 C:\Users\johan\source\repos\GDanielJ\ApiTest\ApiTest\ApiTest.UnitTests\obj\Debug\netcoreapp2.1\ApiTest.UnitTests.csproj.CopyComplete
-C:\Users\johan\source\repos\GDanielJ\ApiTest\ApiTest\ApiTest.UnitTests\bin\Debug\netcoreapp2.1\Microsoft.EntityFrameworkCore.dll
-C:\Users\johan\source\repos\GDanielJ\ApiTest\ApiTest\ApiTest.UnitTests\bin\Debug\netcoreapp2.1\Microsoft.EntityFrameworkCore.xml
+C:\Users\johan\source\repos\GDanielJ\ApiTest\ApiTest\ApiTest.UnitTests\bin\Debug\netcoreapp2.1\ApiTest.UnitTests.pdb
+C:\Users\johan\source\repos\GDanielJ\ApiTest\ApiTest\ApiTest.UnitTests\obj\Debug\netcoreapp2.1\ApiTest.UnitTests.dll
+C:\Users\johan\source\repos\GDanielJ\ApiTest\ApiTest\ApiTest.UnitTests\obj\Debug\netcoreapp2.1\ApiTest.UnitTests.pdb

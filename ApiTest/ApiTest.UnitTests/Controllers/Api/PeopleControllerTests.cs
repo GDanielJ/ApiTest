@@ -8,32 +8,43 @@ using ApiTest.Controllers.Api;
 using ApiTest.Utility.Profile;
 using NUnit.Framework;
 using Moq;
-using Microsoft.EntityFrameworkCore;
 using AutoMapper;
-
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ApiTest.UnitTests.Controllers.Api
 {
     [TestFixture]
     class PeopleControllerTests
     {
-        [Test]
-        public void GetPeople_WhenCalled_ReturnListOfPeople()
+        private ApplicationDbContext _context;
+        private IMapper _mapper;
+        private PeopleController _controller;
+
+        [SetUp]
+        public void SetUp()
         {
-            var context = new Mock<ApplicationDbContext>();
-            var mapper = GenerateConcreteInstance();
+            _mapper = GenerateConcreteInstance();
 
-            context.Setup(c => c.People.ToList()).Returns(new List<Person>
-            {
-                new Person() { Id = 1, Firstname = "Torsten", Lastname = "Torstensson", Email = "torsten@gmail.com", City = "Berlin", DateCreated = DateTime.Now},
-                new Person() { Id = 2, Firstname = "Uno", Lastname = "Unosson", Email = "uno@gmail.com", City = "Amsterdam", DateCreated = DateTime.Now}
-            });
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseInMemoryDatabase(databaseName: "TestDb").Options;
+            _context = new ApplicationDbContext(options);
 
-            var controller = new PeopleController(context.Object, mapper);
+            _context.People.Add(new Person()
+            { Id = 1, Firstname = "Torsten", Lastname = "Torstensson", Email = "torsten@gmail.com", City = "Berlin", DateCreated = DateTime.Now });
+            _context.People.Add(new Person()
+            { Id = 2, Firstname = "Uno", Lastname = "Unosson", Email = "uno@gmail.com", City = "Amsterdam", DateCreated = DateTime.Now });
 
-            var result = controller.GetPeople();
-
+            _controller = new PeopleController(_context, _mapper);
         }
+
+        [Test]
+        public void TestGet_WhenCalled_ReturnStatusCode200()
+        {
+            var result = _controller.GetPeople();
+
+            Assert.IsInstanceOf<OkObjectResult>(result);
+        }
+
 
         private IMapper GenerateConcreteInstance()
         {

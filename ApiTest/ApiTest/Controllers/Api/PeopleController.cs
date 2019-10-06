@@ -24,6 +24,12 @@ namespace ApiTest.Controllers.Api
             _mapper = mapper;
         }
 
+        [HttpGet]
+        public IActionResult TestGet()
+        {
+            return Ok();
+        }
+
         // GET /api/people
         [HttpGet]
         public IActionResult GetPeople()
