@@ -12,6 +12,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace ApiTest.UnitTests.Controllers.Api
 {
     [TestFixture]
@@ -37,12 +38,30 @@ namespace ApiTest.UnitTests.Controllers.Api
             _controller = new PeopleController(_context, _mapper);
         }
 
+        // Det här testet funkar!
         [Test]
-        public void TestGet_WhenCalled_ReturnStatusCode200()
+        public void GetAll_WhenCalled_ReturnStatusCode200()
         {
             var result = _controller.GetPeople();
 
             Assert.IsInstanceOf<OkObjectResult>(result);
+        }
+
+
+        // Det här lyckas jag inte lösa. Jag vill testa så att jag hämtar rätt data. Jag har bytt från att mocka till att använda InMemory-databas.
+        // Läste att det är så man bör göra för att testa DbContext.
+        // De två Person-objekt som jag lägger in i min InMemort-db läsers in korrekt. Men när jag ska kolla metoden hämtar ut dem igen, så får
+        // jag bara tillbaka Null. Lite osäker på vad min Assert ska vara. Tänkte kolla så att Count() = 2 eller nåt sånt.
+        [Test]
+        public void GetAll_WhenCalled_ReturnPeopleInDb()
+        {
+            var result = _controller.GetPeople();
+
+            var okObjectResult = result as OkObjectResult;
+            var content = okObjectResult.Value as IEnumerable<Person>; //Funkar inte
+            Assert.IsNotNull(content);
+            //Assert.AreEqual(result);
+
         }
 
 
