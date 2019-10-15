@@ -35,7 +35,7 @@ namespace ApiTest.UnitTests.Controllers.Api
             _context.People.Add(new Person()
             { Id = 2, Firstname = "Uno", Lastname = "Unosson", Email = "uno@gmail.com", City = "Amsterdam", DateCreated = DateTime.Now });
 
-            _controller = new PeopleController(_context, _mapper);
+            _controller = new PeopleController(_context, _mapper); // Redan här blir det fel tror jag
         }
 
         // Det här testet funkar!
@@ -62,6 +62,24 @@ namespace ApiTest.UnitTests.Controllers.Api
             Assert.IsNotNull(content);
             //Assert.AreEqual(result);
 
+        }
+
+        [Test]
+        public void GetPerson_CallWithInvalidId_ReturnStatusCode404()
+        {
+            var result = _controller.GetPerson(99);
+
+            Assert.IsInstanceOf<NotFoundResult>(result);
+        }
+
+
+        // Fungerar inte
+        [Test]
+        public void GetPerson_CallWithValidId_ReturnStatusCode200()
+        {
+            var result = _controller.GetPerson(1);
+
+            Assert.IsInstanceOf<OkObjectResult>(result);
         }
 
 
