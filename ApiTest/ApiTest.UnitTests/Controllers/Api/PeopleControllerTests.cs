@@ -6,6 +6,7 @@ using ApiTest.Models;
 using ApiTest.Data;
 using ApiTest.Controllers.Api;
 using ApiTest.Utility.Profile;
+using ApiTest.Data.Interfaces;
 using NUnit.Framework;
 using Moq;
 using AutoMapper;
@@ -18,25 +19,27 @@ namespace ApiTest.UnitTests.Controllers.Api
     [TestFixture]
     class PeopleControllerTests
     {
-        private ApplicationDbContext _context;
+        private IPersonService _personService;
         private IMapper _mapper;
         private PeopleController _controller;
 
+
+        // OBS! Ändrat nu så att jag använder unitOfWork istället. 2019-10-18. Kommer Mocka med den...
         [SetUp]
         public void SetUp()
         {
             _mapper = GenerateConcreteInstance();
 
-            var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseInMemoryDatabase(databaseName: "TestDb").Options;
-            _context = new ApplicationDbContext(options);
+            //var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseInMemoryDatabase(databaseName: "TestDb").Options;
+            //_personService = new PersonService();
 
-            _context.People.Add(new Person()
-            { Id = 1, Firstname = "Torsten", Lastname = "Torstensson", Email = "torsten@gmail.com", City = "Berlin", DateCreated = DateTime.Now });
-            _context.People.Add(new Person()
-            { Id = 2, Firstname = "Uno", Lastname = "Unosson", Email = "uno@gmail.com", City = "Amsterdam", DateCreated = DateTime.Now });
-            _context.SaveChanges();
+            //_context.People.Add(new Person()
+            //{ Id = 1, Firstname = "Torsten", Lastname = "Torstensson", Email = "torsten@gmail.com", City = "Berlin", DateCreated = DateTime.Now });
+            //_context.People.Add(new Person()
+            //{ Id = 2, Firstname = "Uno", Lastname = "Unosson", Email = "uno@gmail.com", City = "Amsterdam", DateCreated = DateTime.Now });
+            //_context.SaveChanges();
 
-            _controller = new PeopleController(_context, _mapper); // Redan här blir det fel tror jag
+            //_controller = new PeopleController(_context, _mapper); // Redan här blir det fel tror jag
         }
 
         // Det här testet funkar!

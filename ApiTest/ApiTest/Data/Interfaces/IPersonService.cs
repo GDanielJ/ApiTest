@@ -11,6 +11,7 @@ namespace ApiTest.Data.Interfaces
         IEnumerable<Person> GetAll();
         Person Get(int id);
         void Create(Person person);
+        void Delete(int id);
         void Save();
 
     }

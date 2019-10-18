@@ -32,7 +32,13 @@ namespace ApiTest.Data
             _context.People.Add(person);
         }
 
-        // För update och remove använd Get()
+        public void Delete(int id)
+        {
+            var personInDb = _context.People.SingleOrDefault(p => p.Id == id);
+            _context.Remove(personInDb);
+        }
+
+        // För update använd Get()
 
         public void Save()
         {
