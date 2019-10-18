@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ApiTest.Data;
 using ApiTest.Utility.Profile;
+using ApiTest.Data.Interfaces;
 
 namespace ApiTest
 {
@@ -40,6 +41,8 @@ namespace ApiTest
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddTransient<IPersonService, PersonService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 

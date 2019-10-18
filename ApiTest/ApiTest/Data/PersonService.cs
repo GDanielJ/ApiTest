@@ -1,0 +1,44 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
+using ApiTest.Models;
+using ApiTest.Data.Interfaces;
+using ApiTest.Utility.Profile;
+
+namespace ApiTest.Data
+{
+    public class PersonService : IPersonService
+    {
+        private ApplicationDbContext _context;
+        private IMapper _mapper;
+        public PersonService(ApplicationDbContext context, IMapper mapper)
+        {
+            _context = context;
+            _mapper = mapper;
+        }
+
+        public IEnumerable<Person> GetAll()
+        {
+            return _context.People.ToList();
+        }
+        public Person Get(int id)
+        {
+            return _context.People.SingleOrDefault(p => p.Id == id);
+        }
+        public void Create(Person person)
+        {
+            _context.People.Add(person);
+        }
+
+        // För update och remove använd Get()
+
+        public void Save()
+        {
+            _context.SaveChanges();
+        }
+
+        // https://asp.net-hacker.rocks/2019/01/15/unit-testing-data-access-dotnetcore.html
+    }
+}

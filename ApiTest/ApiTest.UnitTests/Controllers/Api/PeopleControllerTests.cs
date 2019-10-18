@@ -34,6 +34,7 @@ namespace ApiTest.UnitTests.Controllers.Api
             { Id = 1, Firstname = "Torsten", Lastname = "Torstensson", Email = "torsten@gmail.com", City = "Berlin", DateCreated = DateTime.Now });
             _context.People.Add(new Person()
             { Id = 2, Firstname = "Uno", Lastname = "Unosson", Email = "uno@gmail.com", City = "Amsterdam", DateCreated = DateTime.Now });
+            _context.SaveChanges();
 
             _controller = new PeopleController(_context, _mapper); // Redan här blir det fel tror jag
         }
@@ -52,6 +53,7 @@ namespace ApiTest.UnitTests.Controllers.Api
         // Läste att det är så man bör göra för att testa DbContext.
         // De två Person-objekt som jag lägger in i min InMemort-db läsers in korrekt. Men när jag ska kolla metoden hämtar ut dem igen, så får
         // jag bara tillbaka Null. Lite osäker på vad min Assert ska vara. Tänkte kolla så att Count() = 2 eller nåt sånt.
+
         [Test]
         public void GetAll_WhenCalled_ReturnPeopleInDb()
         {
