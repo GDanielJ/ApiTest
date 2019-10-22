@@ -12,50 +12,62 @@ using Moq;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using ApiTest.Dtos;
 
 namespace ApiTest.UnitTests.Controllers.Api
 {
     [TestFixture]
     class PeopleControllerTests
     {
-        private IPersonService _personService;
+        private Mock<IPersonService> _personService;
         private IMapper _mapper;
         private PeopleController _controller;
 
-
-        // OBS! Ändrat nu så att jag använder unitOfWork istället. 2019-10-18. Kommer Mocka med den...
         [SetUp]
         public void SetUp()
         {
             _mapper = GenerateConcreteInstance();
 
-            //var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseInMemoryDatabase(databaseName: "TestDb").Options;
-            //_personService = new PersonService();
+            _personService = new Mock<IPersonService>();
+            _personService.Setup(ps => ps.GetAll()).Returns(new List<Person>
+            {
+                new Person()
+                    { Id = 1, Firstname = "Torsten", Lastname = "Torstensson", Email = "torsten@gmail.com", City = "Berlin", DateCreated = DateTime.Now },
+                new Person()
+                    { Id = 2, Firstname = "Uno", Lastname = "Unosson", Email = "uno@gmail.com", City = "Amsterdam", DateCreated = DateTime.Now }
+            }.AsQueryable());
 
-            //_context.People.Add(new Person()
-            //{ Id = 1, Firstname = "Torsten", Lastname = "Torstensson", Email = "torsten@gmail.com", City = "Berlin", DateCreated = DateTime.Now });
-            //_context.People.Add(new Person()
-            //{ Id = 2, Firstname = "Uno", Lastname = "Unosson", Email = "uno@gmail.com", City = "Amsterdam", DateCreated = DateTime.Now });
-            //_context.SaveChanges();
+            _personService.Setup(ps => ps.Get(1)).Returns(new Person()
+            {
+                Id = 1,
+                Firstname = "Torsten",
+                Lastname = "Torstensson",
+                Email = "torsten@gmail.com",
+                City = "Berlin",
+                DateCreated = DateTime.Now
+            });
 
-            //_controller = new PeopleController(_context, _mapper); // Redan här blir det fel tror jag
+            _controller = new PeopleController(_personService.Object, _mapper);
         }
 
-        // Det här testet funkar!
+
+        // TODO - Fixa till denna. Fungerar! Men ska returnera status 200. lyft ut andra testet i ett eget.
+        // GetAll
         [Test]
         public void GetAll_WhenCalled_ReturnStatusCode200()
         {
             var result = _controller.GetPeople();
 
-            Assert.IsInstanceOf<OkObjectResult>(result);
+            var okObject = result as OkObjectResult;
+            // Assert.IsInstanceOf<OkObjectResult>(result);
+            Assert.IsInstanceOf<IEnumerable<PersonDto>>(okObject.Value);
+            //var idea = returnValue.FirstOrDefault();
+            //Assert.Equal("One", idea.Name);
+
+            //Assert.That(result,Is.InstanceOf<ActionResult<IEnumerable<Person>>>());
+
+            //Den gamla:   Assert.IsInstanceOf<OkObjectResult>(result);
         }
-
-
-        // Det här lyckas jag inte lösa. Jag vill testa så att jag hämtar rätt data. Jag har bytt från att mocka till att använda InMemory-databas.
-        // Läste att det är så man bör göra för att testa DbContext.
-        // De två Person-objekt som jag lägger in i min InMemort-db läsers in korrekt. Men när jag ska kolla metoden hämtar ut dem igen, så får
-        // jag bara tillbaka Null. Lite osäker på vad min Assert ska vara. Tänkte kolla så att Count() = 2 eller nåt sånt.
 
         [Test]
         public void GetAll_WhenCalled_ReturnPeopleInDb()
@@ -63,12 +75,13 @@ namespace ApiTest.UnitTests.Controllers.Api
             var result = _controller.GetPeople();
 
             var okObjectResult = result as OkObjectResult;
-            var content = okObjectResult.Value as IEnumerable<Person>; //Funkar inte
-            Assert.IsNotNull(content);
-            //Assert.AreEqual(result);
 
+            var content = okObjectResult.Value; // as IEnumerable<Person>; //Funkar inte som IEnum...
+
+            Assert.IsNotNull(content);
         }
 
+        // GetPerson
         [Test]
         public void GetPerson_CallWithInvalidId_ReturnStatusCode404()
         {
@@ -77,8 +90,6 @@ namespace ApiTest.UnitTests.Controllers.Api
             Assert.IsInstanceOf<NotFoundResult>(result);
         }
 
-
-        // Fungerar inte
         [Test]
         public void GetPerson_CallWithValidId_ReturnStatusCode200()
         {
@@ -86,6 +97,21 @@ namespace ApiTest.UnitTests.Controllers.Api
 
             Assert.IsInstanceOf<OkObjectResult>(result);
         }
+
+        [Test]
+        public void GetPerson_CallWithValidId_ReturnPersonWithId1()
+        {
+            var result = _controller.GetPerson(1);
+
+            var okObjectResult = result as OkObjectResult;
+
+            var content = okObjectResult.Value;
+
+            Assert.IsNotNull(content);
+        }
+
+        // CreatePerson
+
 
 
         private IMapper GenerateConcreteInstance()

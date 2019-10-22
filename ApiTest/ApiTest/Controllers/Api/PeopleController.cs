@@ -30,7 +30,6 @@ namespace ApiTest.Controllers.Api
         public IActionResult GetPeople()
         {
             return Ok(_personService.GetAll().Select(_mapper.Map<Person, PersonDto>));
-            //return Ok(_context.People.ToList().Select(_mapper.Map<Person, PersonDto>));
         }
 
         // GET /api/people/{id}
@@ -43,13 +42,6 @@ namespace ApiTest.Controllers.Api
                 return NotFound();
 
             return Ok(_mapper.Map<Person, PersonDto>(personInDb));
-
-            //var personInDb = _context.People.SingleOrDefault(p => p.Id == id);
-
-            //if (personInDb == null)
-            //    return NotFound();
-
-            //return Ok(_mapper.Map<Person, PersonDto>(personInDb));
         }
 
         // POST /api/people
@@ -100,9 +92,6 @@ namespace ApiTest.Controllers.Api
 
             _personService.Delete(id);
             _personService.Save();
-
-            //_context.Remove(personIdDb);
-            //_context.SaveChanges();
 
             return Ok();
         }
