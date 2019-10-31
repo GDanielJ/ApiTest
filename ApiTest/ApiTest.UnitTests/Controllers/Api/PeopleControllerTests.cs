@@ -13,6 +13,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ApiTest.Dtos;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 
 namespace ApiTest.UnitTests.Controllers.Api
 {
@@ -22,6 +24,8 @@ namespace ApiTest.UnitTests.Controllers.Api
         private Mock<IPersonService> _personService;
         private IMapper _mapper;
         private PeopleController _controller;
+        private ControllerContext _controllerContext;
+        private PersonDto _personDto;
 
         [SetUp]
         public void SetUp()
@@ -47,30 +51,50 @@ namespace ApiTest.UnitTests.Controllers.Api
                 DateCreated = DateTime.Now
             });
 
+            _personService.Setup(ps => ps.Create(It.IsAny<Person>())).Verifiable();
+
             _controller = new PeopleController(_personService.Object, _mapper);
+
+            var httpContext = new DefaultHttpContext();
+            httpContext.Request.Scheme = "http";
+            httpContext.Request.Host = new HostString("localhost");
+
+            //Controller needs a controller context 
+            _controllerContext = new ControllerContext()
+            {
+                HttpContext = httpContext,
+            };
+
+            _personDto = new PersonDto()
+            {
+                Id = 3,
+                Firstname = "Karl",
+                Lastname = "Karlsson",
+                City = "Oslo",
+                Email = "karl.karlsson@test.com"
+            };
         }
 
-
-        // TODO - Fixa till denna. Fungerar! Men ska returnera status 200. lyft ut andra testet i ett eget.
-        // GetAll
+        // GetPeople
         [Test]
-        public void GetAll_WhenCalled_ReturnStatusCode200()
+        public void GetPeople_WhenCalled_ReturnStatusCode200()
+        {
+            var result = _controller.GetPeople();
+
+            Assert.IsInstanceOf<OkObjectResult>(result);
+        }
+
+        [Test]
+        public void GetPeople_WhenCalled_ReturnInstanceOfIEnumerablePersonDto()
         {
             var result = _controller.GetPeople();
 
             var okObject = result as OkObjectResult;
-            // Assert.IsInstanceOf<OkObjectResult>(result);
             Assert.IsInstanceOf<IEnumerable<PersonDto>>(okObject.Value);
-            //var idea = returnValue.FirstOrDefault();
-            //Assert.Equal("One", idea.Name);
-
-            //Assert.That(result,Is.InstanceOf<ActionResult<IEnumerable<Person>>>());
-
-            //Den gamla:   Assert.IsInstanceOf<OkObjectResult>(result);
         }
 
         [Test]
-        public void GetAll_WhenCalled_ReturnPeopleInDb()
+        public void GetPeople_WhenCalled_ReturnInstanceOfOkObjectResult()
         {
             var result = _controller.GetPeople();
 
@@ -111,7 +135,33 @@ namespace ApiTest.UnitTests.Controllers.Api
         }
 
         // CreatePerson
+        [Test]
+        public void CreatePerson_WhenCalled_IsNotNull()
+        {
+            //assign context to controller
+            _controller.ControllerContext = _controllerContext;
 
+            var result = _controller.CreatePerson(_personDto);
+
+            var createdResult = result as CreatedResult;
+
+            Assert.IsNotNull(createdResult);
+        }
+
+        public void CreatePerson_WhenCalled_ReturnStatusCode201()
+        {
+            //TODO
+        }
+
+        public void CreatePerson_WhenCalled_ReturnCorrectUri()
+        {
+            //TODO
+        }
+
+
+        // UpdatePerson
+
+        // DeletePerson
 
 
         private IMapper GenerateConcreteInstance()
@@ -123,5 +173,12 @@ namespace ApiTest.UnitTests.Controllers.Api
 
             return config.CreateMapper();
         }
+
+
+
+
+
+        // https://asp.net-hacker.rocks/2019/01/15/unit-testing-data-access-dotnetcore.html
+        // https://docs.microsoft.com/en-us/aspnet/core/mvc/controllers/testing?view=aspnetcore-3.0
     }
 }
