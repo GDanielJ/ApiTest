@@ -57,7 +57,7 @@ namespace ApiTest.UnitTests.Controllers.Api
 
             var httpContext = new DefaultHttpContext();
             httpContext.Request.Scheme = "http";
-            httpContext.Request.Host = new HostString("localhost");
+            httpContext.Request.Host = new HostString("localhost/api");
 
             //Controller needs a controller context 
             _controllerContext = new ControllerContext()
@@ -148,16 +148,38 @@ namespace ApiTest.UnitTests.Controllers.Api
             Assert.IsNotNull(createdResult);
         }
 
+        [Test]
         public void CreatePerson_WhenCalled_ReturnStatusCode201()
         {
-            //TODO
+            _controller.ControllerContext = _controllerContext;
+
+            var result = _controller.CreatePerson(_personDto);
+
+            var createdResult = result as CreatedResult;
+
+            var statusCode = createdResult.StatusCode;
+
+            Assert.That(statusCode, Is.EqualTo(201));
         }
 
+        [Test]
         public void CreatePerson_WhenCalled_ReturnCorrectUri()
         {
-            //TODO
+            _controller.ControllerContext = _controllerContext;
+
+            var result = _controller.CreatePerson(_personDto);
+
+            var createdResult = result as CreatedResult;
+
+            var location = createdResult.Location;
+
+            Assert.That(location, Is.EqualTo("http://localhost/api//3"));
         }
 
+        public void CreatePerson_WhenCalledWithIncompleteModel_ReturnBadRequest()
+        {
+            // TODO
+        }
 
         // UpdatePerson
 
