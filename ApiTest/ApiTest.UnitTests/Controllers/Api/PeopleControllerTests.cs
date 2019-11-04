@@ -201,11 +201,29 @@ namespace ApiTest.UnitTests.Controllers.Api
         }
 
         // DeletePerson
+        [Test]
         public void DeletePerson_WhenCalled_ReturnStatusCode200()
         {
-            // TODO
+            var result = _controller.RemovePerson(1);
+
+            var okResult = result as OkResult;
+
+            var statusCode = okResult.StatusCode;
+
+            Assert.That(statusCode, Is.EqualTo(200));
         }
 
+        [Test]
+        public void RemovePerson_WhenCalledWithNonexistantId_ReturnStatusCode404()
+        {
+            var result = _controller.RemovePerson(99);
+
+            var notFoundResult = result as NotFoundResult;
+
+            var statusCode = notFoundResult.StatusCode;
+
+            Assert.That(statusCode, Is.EqualTo(404));
+        }
 
 
         private IMapper GenerateConcreteInstance()
